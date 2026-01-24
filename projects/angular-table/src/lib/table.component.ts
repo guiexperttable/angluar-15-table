@@ -14,7 +14,7 @@ import { CommonModule } from "@angular/common";
 import { debounceTime, Subject, takeWhile } from "rxjs";
 import {
   EventListenerIf, FocusModelIf,
-  GeModelChangeEvent,
+  GeModelChangeEvent, GeScrollEvent,
   GeMouseEvent, SelectionModelIf,
   TableApi,
   TableModelIf,
@@ -41,6 +41,9 @@ export class TableComponent implements OnInit, OnDestroy, EventListenerIf {
 
   @Output()
   tableReady = new Subject<TableApi>();
+
+  @Output()
+  scroll: Subject<GeScrollEvent> = new Subject<GeScrollEvent>();
 
   @Output()
   mouseMoved: Subject<GeMouseEvent> = new Subject<GeMouseEvent>();
@@ -91,6 +94,10 @@ export class TableComponent implements OnInit, OnDestroy, EventListenerIf {
     private readonly zone: NgZone,
     private readonly domService: DomService
   ) {
+  }
+
+  onScroll(evt: GeScrollEvent): void {
+    this.scroll.next(evt);
   }
 
 
